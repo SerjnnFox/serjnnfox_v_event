@@ -35,6 +35,35 @@
     document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
   }
 
+  // Mobile swipe carousels: dots that follow the scroll position
+  document.querySelectorAll("[data-carousel]").forEach(function (track) {
+    var cards = Array.prototype.slice.call(track.children);
+    if (cards.length < 2) return;
+    var dots = document.createElement("div");
+    dots.className = "carousel-dots";
+    dots.setAttribute("aria-label", "Листайте свадьбы");
+    cards.forEach(function (card, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("aria-label", "Свадьба " + (i + 1) + " из " + cards.length);
+      b.addEventListener("click", function () {
+        track.scrollTo({ left: card.offsetLeft - track.offsetLeft - 20, behavior: "smooth" });
+      });
+      dots.appendChild(b);
+    });
+    track.after(dots);
+    var update = function () {
+      var x = track.scrollLeft, best = 0, bestD = Infinity;
+      cards.forEach(function (c, i) {
+        var d = Math.abs(c.offsetLeft - track.offsetLeft - 20 - x);
+        if (d < bestD) { bestD = d; best = i; }
+      });
+      Array.prototype.forEach.call(dots.children, function (b, i) { b.setAttribute("aria-current", String(i === best)); });
+    };
+    track.addEventListener("scroll", function () { window.requestAnimationFrame(update); }, { passive: true });
+    update();
+  });
+
   // Portfolio filters
   var chips = document.querySelectorAll("[data-filter]");
   chips.forEach(function (chip) {

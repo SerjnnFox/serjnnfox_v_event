@@ -407,3 +407,20 @@ em.accent { font-style: italic; color: var(--gold-ink); }
 .team-row img, .team-row .ph { width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; object-position: center 25%; border-radius: var(--radius); }
 .team-row figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); }
 @media (max-width: 760px) { .team-row { grid-template-columns: 1fr; } }
+
+/* Mobile swipe carousel for case cards */
+.carousel-dots { display: none; }
+@media (max-width: 560px) {
+  .grid-cases--carousel {
+    display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-padding-inline: 20px;
+    margin-inline: -20px; padding: 0 20px 4px; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .grid-cases--carousel::-webkit-scrollbar { display: none; }
+  .grid-cases--carousel .case-card { flex: 0 0 84%; scroll-snap-align: start; }
+  .grid-cases--carousel .case-card.reveal { opacity: 1; transform: none; }
+  .grid-cases--carousel .case-card__img { aspect-ratio: 4/5; }
+  .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
+  .carousel-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px; background: var(--line); cursor: pointer; transition: width .25s, background .25s; }
+  .carousel-dots button[aria-current="true"] { width: 24px; background: var(--gold-ink); }
+}

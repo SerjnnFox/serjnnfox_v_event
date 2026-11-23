@@ -558,7 +558,7 @@ def build_home():
       <div><span class="eyebrow">Портфолио</span><h2>Свадьбы, которые мы создали</h2></div>
       <a class="link-arrow" href="/portfolio/">Все {len(CASES)} историй {icon('arrow', 16)}</a>
     </div>
-    <div class="grid-cases">{case_cards(featured)}</div>
+    <div class="grid-cases grid-cases--carousel" data-carousel>{case_cards(featured)}</div>
   </div>
 </section>
 
@@ -799,7 +799,7 @@ def build_dubai():
       <div><span class="eyebrow">Портфолио</span><h2>Наши свадьбы в ОАЭ</h2></div>
       <a class="link-arrow" href="/portfolio/#dubai">Смотреть все {icon('arrow', 16)}</a>
     </div>
-    <div class="grid-cases">{case_cards(dubai_cases, with_region=False)}</div>
+    <div class="grid-cases grid-cases--carousel" data-carousel>{case_cards(dubai_cases, with_region=False)}</div>
   </div>
 </section>
 
@@ -1008,7 +1008,7 @@ def build_reviews():
   <div class="wrap">
     <div class="section-head"><div><span class="eyebrow">Портфолио</span><h2>Посмотрите на наши свадьбы</h2></div>
       <a class="link-arrow" href="/portfolio/">Все свадьбы {icon('arrow', 16)}</a></div>
-    <div class="grid-cases">{case_cards([CASE_BY_SLUG[s] for s in ('wedding-kempinski', 'wedding-tayny-rubleva', 'wedding-jan-remi')])}</div>
+    <div class="grid-cases grid-cases--carousel" data-carousel>{case_cards([CASE_BY_SLUG[s] for s in ('wedding-kempinski', 'wedding-tayny-rubleva', 'wedding-jan-remi')])}</div>
   </div>
 </section>
 {lead_section()}
