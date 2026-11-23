@@ -121,6 +121,14 @@ def dims(p):
         return {"w": im.width, "h": im.height}
 
 
+def ahash(p):
+    """Perceptual hash: 64-bit, close values mean visually identical photos."""
+    with Image.open(p) as im:
+        px = list(im.convert("L").resize((8, 8), Image.LANCZOS).getdata())
+    avg = sum(px) / 64
+    return sum(1 << i for i, v in enumerate(px) if v > avg)
+
+
 def index():
     """Write data/images.json from what is on disk."""
     res = {"site": {}, "cases": {}, "instagram": []}
@@ -138,7 +146,16 @@ def index():
             info["cover"] = dims(d / "cover.webp")
         raws = sorted(p for p in (d / "raw").glob("*.webp")
                       if not p.stem.endswith("-sm") and ".part" not in p.name) if (d / "raw").exists() else []
-        for p in raws[:MAX_GALLERY]:
+        seen = []
+        for p in raws:
+            if len(info["gallery"]) >= MAX_GALLERY:
+                break
+            h = ahash(p)
+            dist = [bin(h ^ x).count("1") for x in seen]
+            # same shot uploaded twice anywhere, or a near-identical burst frame right next to it
+            if any(d <= 6 for d in dist) or any(d <= 12 for d in dist[-2:]):
+                continue
+            seen.append(h)
             info["gallery"].append({"n": "raw/" + p.stem, **dims(p)})
         res["cases"][case["slug"]] = info
     (ROOT / "data/images.json").write_text(json.dumps(res, ensure_ascii=False, indent=1))
