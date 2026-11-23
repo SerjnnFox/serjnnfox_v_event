@@ -35,31 +35,22 @@
     document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
   }
 
-  // Mobile swipe carousels: dots that follow the scroll position
-  document.querySelectorAll("[data-carousel]").forEach(function (track) {
-    var cards = Array.prototype.slice.call(track.children);
-    if (cards.length < 2) return;
-    var dots = document.createElement("div");
-    dots.className = "carousel-dots";
-    dots.setAttribute("aria-label", "Листайте свадьбы");
-    cards.forEach(function (card, i) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.setAttribute("aria-label", "Свадьба " + (i + 1) + " из " + cards.length);
-      b.addEventListener("click", function () {
-        track.scrollTo({ left: card.offsetLeft - track.offsetLeft - 20, behavior: "smooth" });
-      });
-      dots.appendChild(b);
-    });
-    track.after(dots);
+  // Photo slider inside each case card
+  document.querySelectorAll("[data-slider]").forEach(function (track) {
+    var box = track.parentNode;
+    var dots = box.querySelectorAll(".slider__dots span");
+    var prev = box.querySelector(".slider__btn--prev"), next = box.querySelector(".slider__btn--next");
+    var n = track.children.length;
+    var current = function () { return Math.round(track.scrollLeft / track.clientWidth); };
     var update = function () {
-      var x = track.scrollLeft, best = 0, bestD = Infinity;
-      cards.forEach(function (c, i) {
-        var d = Math.abs(c.offsetLeft - track.offsetLeft - 20 - x);
-        if (d < bestD) { bestD = d; best = i; }
-      });
-      Array.prototype.forEach.call(dots.children, function (b, i) { b.setAttribute("aria-current", String(i === best)); });
+      var i = current();
+      Array.prototype.forEach.call(dots, function (d, k) { d.classList.toggle("on", k === i); });
+      if (prev) prev.disabled = i <= 0;
+      if (next) next.disabled = i >= n - 1;
     };
+    var go = function (d) { track.scrollTo({ left: (current() + d) * track.clientWidth, behavior: "smooth" }); };
+    if (prev) prev.addEventListener("click", function (e) { e.preventDefault(); go(-1); });
+    if (next) next.addEventListener("click", function (e) { e.preventDefault(); go(1); });
     track.addEventListener("scroll", function () { window.requestAnimationFrame(update); }, { passive: true });
     update();
   });

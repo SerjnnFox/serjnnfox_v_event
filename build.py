@@ -297,16 +297,37 @@ def lead_section(title="Давайте обсудим вашу свадьбу", 
 </section>"""
 
 
+CARD_PHOTOS = 6  # cover + first gallery photos shown in each card's swipe slider
+
+
 def case_cards(cases, with_region=True):
     out = []
     for c in cases:
         tag = f'<span class="case-card__tag">{REGION_LABEL[c["region"]]}</span>' if with_region else ""
         guests = f'{c["guests"]} {plural(c["guests"], "гость", "гостя", "гостей")}'
-        out.append(f"""<a class="case-card reveal" href="/{c['slug']}/" data-region="{c['region']}">
-  <div class="case-card__img">{case_cover(c)}{tag}</div>
-  <h3>{e(c['title'])}</h3>
+        href = f"/{c['slug']}/"
+        gallery = IMAGES["cases"].get(c["slug"], {}).get("gallery", [])[: CARD_PHOTOS - 1]
+        slides = [f'<a class="slide" href="{href}" tabindex="-1">{case_cover(c)}</a>']
+        base = f'/assets/img/cases/{c["slug"]}'
+        for k, p in enumerate(gallery, 2):
+            h = round(p["h"] * min(p["w"], 800) / p["w"])
+            slides.append(f'<a class="slide" href="{href}" tabindex="-1"><img src="{base}/{p["n"]}-sm.webp" width="{min(p["w"], 800)}" height="{h}" '
+                          f'alt="{e(c["title"])} — фото {k}" loading="lazy" decoding="async"></a>')
+        n = len(slides)
+        controls = ""
+        if n > 1:
+            dots = "".join(f'<span{" class=\"on\"" if i == 0 else ""}></span>' for i in range(n))
+            controls = (f'<button class="slider__btn slider__btn--prev" type="button" aria-label="Предыдущее фото">‹</button>'
+                        f'<button class="slider__btn slider__btn--next" type="button" aria-label="Следующее фото">›</button>'
+                        f'<div class="slider__dots" aria-hidden="true">{dots}</div>')
+        out.append(f"""<article class="case-card reveal" data-region="{c['region']}">
+  <div class="case-card__img slider">
+    <div class="slider__track" data-slider>{''.join(slides)}</div>
+    {tag}{controls}
+  </div>
+  <h3><a href="{href}">{e(c['title'])}</a></h3>
   <p>{e(c['city'])} · {guests} · {c['date'][-4:]}</p>
-</a>""")
+</article>""")
     return "\n".join(out)
 
 
@@ -558,7 +579,7 @@ def build_home():
       <div><span class="eyebrow">Портфолио</span><h2>Свадьбы, которые мы создали</h2></div>
       <a class="link-arrow" href="/portfolio/">Все {len(CASES)} историй {icon('arrow', 16)}</a>
     </div>
-    <div class="grid-cases grid-cases--carousel" data-carousel>{case_cards(featured)}</div>
+    <div class="grid-cases">{case_cards(featured)}</div>
   </div>
 </section>
 
@@ -799,7 +820,7 @@ def build_dubai():
       <div><span class="eyebrow">Портфолио</span><h2>Наши свадьбы в ОАЭ</h2></div>
       <a class="link-arrow" href="/portfolio/#dubai">Смотреть все {icon('arrow', 16)}</a>
     </div>
-    <div class="grid-cases grid-cases--carousel" data-carousel>{case_cards(dubai_cases, with_region=False)}</div>
+    <div class="grid-cases">{case_cards(dubai_cases, with_region=False)}</div>
   </div>
 </section>
 
@@ -1008,7 +1029,7 @@ def build_reviews():
   <div class="wrap">
     <div class="section-head"><div><span class="eyebrow">Портфолио</span><h2>Посмотрите на наши свадьбы</h2></div>
       <a class="link-arrow" href="/portfolio/">Все свадьбы {icon('arrow', 16)}</a></div>
-    <div class="grid-cases grid-cases--carousel" data-carousel>{case_cards([CASE_BY_SLUG[s] for s in ('wedding-kempinski', 'wedding-tayny-rubleva', 'wedding-jan-remi')])}</div>
+    <div class="grid-cases">{case_cards([CASE_BY_SLUG[s] for s in ('wedding-kempinski', 'wedding-tayny-rubleva', 'wedding-jan-remi')])}</div>
   </div>
 </section>
 {lead_section()}
