@@ -22,7 +22,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python3 build.py
+      - name: Build
+        run: |
+          # Without a CNAME the site lives at <user>.github.io/<repo>/
+          if [ -f CNAME ]; then export BASE_PATH=""; else export BASE_PATH="/${GITHUB_REPOSITORY#*/}"; fi
+          python3 build.py
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

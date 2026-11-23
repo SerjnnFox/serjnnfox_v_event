@@ -9,13 +9,28 @@ No dependencies beyond the Python standard library.
 """
 import html
 import json
+import os
 import pathlib
+import re
 import shutil
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent
 OUT = ROOT / "_site"
 DOMAIN = "https://v-event.ru"
+
+# Site served from a sub-folder (e.g. user.github.io/repo/) until the domain is connected.
+BASE = os.environ.get("BASE_PATH", "").rstrip("/")
+
+
+def with_base(doc):
+    if not BASE:
+        return doc
+    doc = doc.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<meta name="robots" content="noindex">', 1)  # preview copy
+    doc = re.sub(r'((?:href|src|action)=")/(?!/)', r"\g<1>" + BASE + "/", doc)
+    doc = re.sub(r'srcset="[^"]*"', lambda m: m.group(0).replace("/assets/", BASE + "/assets/"), doc)
+    return doc
+
 
 CASES = json.loads((ROOT / "data/cases.json").read_text())
 CASE_BY_SLUG = {c["slug"]: c for c in CASES}
@@ -218,6 +233,7 @@ def footer(wa=None):
 
 def page(path, title, desc, active, body, og_image=None, wa=None, extra_head=""):
     doc = head(title, desc, path, og_image).replace("</head>", extra_head + "\n</head>") + header(active) + body + footer(wa)
+    doc = with_base(doc)
     dest = OUT / path.strip("/") / "index.html" if path != "/" else OUT / "index.html"
     if path.endswith(".html"):
         dest = OUT / path.strip("/")
