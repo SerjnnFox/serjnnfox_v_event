@@ -448,3 +448,9 @@ em.accent { font-style: italic; color: var(--gold-ink); }
 }
 .contact-lines li > div { min-width: 0; }
 .contact-lines a { overflow-wrap: break-word; }
+
+/* Case story */
+.story .story__lead { font: 400 clamp(21px, 2.2vw, 26px)/1.45 var(--serif); color: var(--ink); margin: 0 0 22px; max-width: none; }
+.story p { color: var(--ink-2); }
+.story aside { position: sticky; top: 100px; }
+@media (max-width: 860px) { .story aside { position: static; } }

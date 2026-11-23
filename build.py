@@ -34,6 +34,7 @@ def with_base(doc):
 
 CASES = json.loads((ROOT / "data/cases.json").read_text())
 CASE_BY_SLUG = {c["slug"]: c for c in CASES}
+CASE_TEXTS = json.loads((ROOT / "data/case-texts.json").read_text()) if (ROOT / "data/case-texts.json").exists() else {}
 IMAGES_FILE = ROOT / "data/images.json"
 IMAGES = json.loads(IMAGES_FILE.read_text()) if IMAGES_FILE.exists() else {"cases": {}, "site": {}, "instagram": []}
 
@@ -549,6 +550,15 @@ def service_ld(name, area, currency, offers, lang="ru"):
     }
 
 
+def meta_desc(c):
+    tx = CASE_TEXTS.get(c["slug"])
+    if tx:
+        d = tx["lead"]
+        return d if len(d) <= 160 else d[:157].rsplit(" ", 1)[0].rstrip(",:—– ") + "…"
+    return (f"{c['title']}: {c['venue']}, {c['city']}, {c['guests']} {plural(c['guests'], 'гость', 'гостя', 'гостей')}. "
+            "Фото и детали проекта свадебного агентства Vinogradova Event.")
+
+
 def case_ld(c, gallery):
     base = f"{DOMAIN}/assets/img/cases/{c['slug']}"
     d, m, y = c["date"].split(".")
@@ -792,6 +802,23 @@ def build_cases():
         guests = f'{c["guests"]}'
         cover_info = IMAGES["cases"].get(c["slug"], {}).get("cover")
         hero_bg = case_cover(c, sizes="100vw", eager=True, full=True) if cover_info else ""
+        tx = CASE_TEXTS.get(c["slug"])
+        story = ""
+        if tx:
+            story = f"""<section class="section section--tight">
+  <div class="wrap split story" style="align-items:start">
+    <div class="reveal">
+      <span class="eyebrow">О проекте</span>
+      <p class="lead story__lead">{e(tx['lead'])}</p>
+      {''.join(f'<p>{e(x)}</p>' for x in tx['paras'])}
+    </div>
+    <aside class="price-box reveal">
+      <h3>Детали</h3>
+      <ul class="checks">{''.join(f'<li>{e(x)}</li>' for x in tx['highlights'])}</ul>
+      <div class="actions" style="margin-top:24px"><a class="btn btn--gold btn--block" href="#lead">Хочу похожую свадьбу</a></div>
+    </aside>
+  </div>
+</section>"""
         kind = "Предложение" if "proposal" in c["slug"] else "Love story" if "love-story" in c["slug"] else "Роспись" if "engaging" in c["slug"] else "Свадьба"
         body = f"""
 <section class="hero hero--page">
@@ -812,6 +839,7 @@ def build_cases():
     </dl>
   </div>
 </section>
+{story}
 <section class="section" style="padding-top:56px">
   <div class="wrap">
     <div class="gallery">{gallery}</div>
@@ -840,7 +868,7 @@ def build_cases():
 """
         og = f"/assets/img/cases/{c['slug']}/cover.webp" if cover_info else None
         page(f"/{c['slug']}/", f"{c['title']} — Vinogradova Event",
-             f"{c['title']}: {c['venue']}, {c['city']}, {c['guests']} {plural(c['guests'], 'гость', 'гостя', 'гостей')}. Фото и детали проекта свадебного агентства Vinogradova Event.",
+             meta_desc(c),
              "portfolio", body, og_image=og, wa=wa, extra_head=ld_script(case_ld(c, g)))
 
 
