@@ -1,0 +1,192 @@
+[
+ {
+  "slug": "wedding-kempinski",
+  "title": "Свадьба в Kempinski The Palm",
+  "venue": "Kempinski Hotel & Residences The Palm",
+  "city": "Дубай",
+  "region": "dubai",
+  "guests": 80,
+  "date": "20.04.2024",
+  "cover_src": "https://static.tildacdn.com/tild3630-3566-4133-a363-346264373039/145.jpg"
+ },
+ {
+  "slug": "dubai-wedding-6",
+  "title": "Свадьба на Bluewaters",
+  "venue": "Bluewaters Island",
+  "city": "Дубай",
+  "region": "dubai",
+  "guests": 80,
+  "date": "15.04.2024",
+  "cover_src": "https://static.tildacdn.com/tild6631-6530-4733-b831-313630623539/Photo-169.jpg"
+ },
+ {
+  "slug": "dubai-wedding-3",
+  "title": "Свадьба в Hyatt Regency",
+  "venue": "Hyatt Regency",
+  "city": "Дубай",
+  "region": "dubai",
+  "guests": 60,
+  "date": "02.03.2024",
+  "cover_src": "https://static.tildacdn.com/tild3033-3539-4133-b164-343262353432/FedyaRo-15_resized.jpg"
+ },
+ {
+  "slug": "dubai-wedding-4",
+  "title": "Свадьба на частной вилле",
+  "venue": "Частная вилла",
+  "city": "Дубай",
+  "region": "dubai",
+  "guests": 20,
+  "date": "24.02.2024",
+  "cover_src": "https://static.tildacdn.com/tild6535-3231-4338-a561-363836333035/__2025-05-02__192402.png"
+ },
+ {
+  "slug": "wedding-anatara-1",
+  "title": "Свадьба в Anantara",
+  "venue": "Anantara",
+  "city": "Абу-Даби",
+  "region": "dubai",
+  "guests": 40,
+  "date": "24.10.2024",
+  "cover_src": "https://static.tildacdn.com/tild3561-3064-4336-b562-303237623766/Photo-248_2.jpg"
+ },
+ {
+  "slug": "wedding-anantara-2",
+  "title": "Камерная свадьба в Anantara",
+  "venue": "Anantara",
+  "city": "Абу-Даби",
+  "region": "dubai",
+  "guests": 20,
+  "date": "27.01.2024",
+  "cover_src": "https://static.tildacdn.com/tild3734-3461-4766-b030-363434646236/IMG_0536.jpg"
+ },
+ {
+  "slug": "dubai-proposal",
+  "title": "Предложение руки и сердца",
+  "venue": "Дубай",
+  "city": "Дубай",
+  "region": "dubai",
+  "guests": 5,
+  "date": "03.01.2023",
+  "cover_src": "https://static.tildacdn.com/tild3362-6131-4537-b331-636533343539/photo.JPG"
+ },
+ {
+  "slug": "wedding-villa-miketti",
+  "title": "Свадьба на Вилле Микетти",
+  "venue": "Вилла Микетти",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 50,
+  "date": "21.07.2022",
+  "cover_src": "https://static.tildacdn.com/tild3363-3736-4666-a363-623762313230/zakharpvphoto-65.jpg"
+ },
+ {
+  "slug": "wedding-tayny-rubleva",
+  "title": "Свадьба в «Тайнах Рублёва»",
+  "venue": "Тайны Рублёва",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 60,
+  "date": "16.07.2022",
+  "cover_src": "https://static.tildacdn.com/tild6461-3335-4165-a539-623762333035/photo-64.jpg"
+ },
+ {
+  "slug": "wedding-tseleevo-golf-club",
+  "title": "Свадьба в Целеево Гольф Клуб",
+  "venue": "Целеево Гольф Клуб",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 35,
+  "date": "14.07.2022",
+  "cover_src": "https://static.tildacdn.com/tild6235-6534-4634-b238-306538663333/Plenka_0043.jpg"
+ },
+ {
+  "slug": "wedding-hilton-moscow-leningradskaya",
+  "title": "Свадьба в Hilton Moscow Leningradskaya",
+  "venue": "Hilton Moscow Leningradskaya",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 80,
+  "date": "12.11.2021",
+  "cover_src": "https://static.tildacdn.com/tild6562-3531-4163-a339-363965656230/photo.JPG"
+ },
+ {
+  "slug": "wedding-jan-remi",
+  "title": "Свадьба в «Жан Реми»",
+  "venue": "Жан Реми",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 70,
+  "date": "14.08.2021",
+  "cover_src": "https://static.tildacdn.com/tild6534-6362-4439-a565-653635643434/photo.jpg"
+ },
+ {
+  "slug": "wedding-seneshal",
+  "title": "Свадьба в бутик-отеле Seneshal",
+  "venue": "Бутик-отель Seneshal",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 70,
+  "date": "29.07.2021",
+  "cover_src": "https://static.tildacdn.com/tild3930-3036-4461-a534-376331373238/BAYD_0020.jpg"
+ },
+ {
+  "slug": "wedding-modus",
+  "title": "Свадьба в «Модусе»",
+  "venue": "Модус",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 70,
+  "date": "03.07.2021",
+  "cover_src": "https://static.tildacdn.com/tild3061-3162-4532-a166-623633613834/photo.jpg"
+ },
+ {
+  "slug": "wedding-shale-berezka",
+  "title": "Свадьба в «Шале Берёзка»",
+  "venue": "Шале Берёзка",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 120,
+  "date": "18.09.2019",
+  "cover_src": "https://static.tildacdn.com/tild3730-3935-4461-b232-393262383733/photo.jpg"
+ },
+ {
+  "slug": "wedding-soho-rooms-2019",
+  "title": "Свадьба в Soho Rooms",
+  "venue": "Soho Rooms",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 60,
+  "date": "09.08.2019",
+  "cover_src": "https://static.tildacdn.com/tild3336-6531-4339-a563-313464363234/photo.JPG"
+ },
+ {
+  "slug": "wedding-artiland",
+  "title": "Свадьба в Artiland",
+  "venue": "Artiland",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 70,
+  "date": "31.08.2017",
+  "cover_src": "https://static.tildacdn.com/tild6539-3535-4139-b565-353935666537/NT-444.jpg"
+ },
+ {
+  "slug": "wedding-italy",
+  "title": "Свадьба в Италии",
+  "venue": "Сполето, Умбрия",
+  "city": "Италия",
+  "region": "europe",
+  "guests": 7,
+  "date": "08.09.2017",
+  "cover_src": "https://static.tildacdn.com/tild6263-6137-4762-a262-626537313664/image.png"
+ },
+ {
+  "slug": "love-story-italy",
+  "title": "Love story на водопадах",
+  "venue": "Водопады в Италии",
+  "city": "Италия",
+  "region": "europe",
+  "guests": 2,
+  "date": "08.09.2017",
+  "cover_src": "https://static.tildacdn.com/tild3762-3830-4930-b935-363839653864/024-Marina-Fadeeva-w.jpg"
+ }
+]
