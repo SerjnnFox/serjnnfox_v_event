@@ -7,7 +7,8 @@
   "region": "dubai",
   "guests": 40,
   "date": "24.10.2024",
-  "cover_src": "https://static.tildacdn.com/tild3561-3064-4336-b562-303237623766/Photo-248_2.jpg"
+  "cover_src": "https://static.tildacdn.com/tild3561-3064-4336-b562-303237623766/Photo-248_2.jpg",
+  "title_en": "Wedding at Anantara, Abu Dhabi"
  },
  {
   "slug": "wedding-kempinski",
@@ -17,7 +18,8 @@
   "region": "dubai",
   "guests": 80,
   "date": "20.04.2024",
-  "cover_src": "https://static.tildacdn.com/tild3630-3566-4133-a363-346264373039/145.jpg"
+  "cover_src": "https://static.tildacdn.com/tild3630-3566-4133-a363-346264373039/145.jpg",
+  "title_en": "Wedding at Kempinski The Palm"
  },
  {
   "slug": "dubai-wedding-6",
@@ -27,7 +29,8 @@
   "region": "dubai",
   "guests": 80,
   "date": "15.04.2024",
-  "cover_src": "https://static.tildacdn.com/tild6631-6530-4733-b831-313630623539/Photo-169.jpg"
+  "cover_src": "https://static.tildacdn.com/tild6631-6530-4733-b831-313630623539/Photo-169.jpg",
+  "title_en": "Wedding on Bluewaters Island"
  },
  {
   "slug": "dubai-wedding-3",
@@ -37,7 +40,8 @@
   "region": "dubai",
   "guests": 60,
   "date": "02.03.2024",
-  "cover_src": "https://static.tildacdn.com/tild3033-3539-4133-b164-343262353432/FedyaRo-15_resized.jpg"
+  "cover_src": "https://static.tildacdn.com/tild3033-3539-4133-b164-343262353432/FedyaRo-15_resized.jpg",
+  "title_en": "Wedding at Hyatt Regency"
  },
  {
   "slug": "wedding-melia",
@@ -47,7 +51,8 @@
   "region": "dubai",
   "guests": 70,
   "date": "01.03.2024",
-  "cover_src": "https://static.tildacdn.com/tild3732-3033-4532-b437-646235326638/bi-175.jpg"
+  "cover_src": "https://static.tildacdn.com/tild3732-3033-4532-b437-646235326638/bi-175.jpg",
+  "title_en": "Wedding at Melia"
  },
  {
   "slug": "dubai-wedding-4",
@@ -57,7 +62,8 @@
   "region": "dubai",
   "guests": 20,
   "date": "24.02.2024",
-  "cover_src": "https://static.tildacdn.com/tild6535-3231-4338-a561-363836333035/__2025-05-02__192402.png"
+  "cover_src": "https://static.tildacdn.com/tild6535-3231-4338-a561-363836333035/__2025-05-02__192402.png",
+  "title_en": "Wedding at a private villa"
  },
  {
   "slug": "wedding-anantara-2",
@@ -67,7 +73,8 @@
   "region": "dubai",
   "guests": 20,
   "date": "27.01.2024",
-  "cover_src": "https://static.tildacdn.com/tild3734-3461-4766-b030-363434646236/IMG_0536.jpg"
+  "cover_src": "https://static.tildacdn.com/tild3734-3461-4766-b030-363434646236/IMG_0536.jpg",
+  "title_en": "Intimate wedding at Anantara, Abu Dhabi"
  },
  {
   "slug": "dubai-wedding-2",
@@ -77,7 +84,8 @@
   "region": "dubai",
   "guests": 80,
   "date": "02.02.2023",
-  "cover_src": "https://static.tildacdn.com/tild3037-3134-4539-b930-366132663633/photo.jpg"
+  "cover_src": "https://static.tildacdn.com/tild3037-3134-4539-b930-366132663633/photo.jpg",
+  "title_en": "Wedding in Dubai for 80 guests"
  },
  {
   "slug": "dubai-proposal",
@@ -87,7 +95,8 @@
   "region": "dubai",
   "guests": 5,
   "date": "03.01.2023",
-  "cover_src": "https://static.tildacdn.com/tild3362-6131-4537-b331-636533343539/photo.JPG"
+  "cover_src": "https://static.tildacdn.com/tild3362-6131-4537-b331-636533343539/photo.JPG",
+  "title_en": "Marriage proposal in Dubai"
  },
  {
   "slug": "dubai-wedding-1",
@@ -97,7 +106,8 @@
   "region": "dubai",
   "guests": 60,
   "date": "15.10.2022",
-  "cover_src": "https://static.tildacdn.com/tild3366-3933-4236-b130-613663313763/photo.jpg"
+  "cover_src": "https://static.tildacdn.com/tild3366-3933-4236-b130-613663313763/photo.jpg",
+  "title_en": "Wedding in Dubai"
  },
  {
   "slug": "wedding-villa-miketti",

@@ -149,7 +149,7 @@
 
       var data = new FormData(form);
       data.append("page", document.title);
-      var lines = [form.getAttribute("data-lead") || "Заявка с сайта"];
+      var lines = [form.getAttribute("data-lead") || (doc.lang === "en" ? "Website request" : "Заявка с сайта")];
       data.forEach(function (v, k) {
         if (!v || k === "_gotcha" || k === "page") return;
         var label = form.querySelector('[name="' + k + '"]');
@@ -162,7 +162,9 @@
 
       var done = function () {
         form.innerHTML = '<div class="form__ok" role="status"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="24" cy="24" r="22"/><path d="M15 24.5l6 6 12-13"/></svg>' +
-          '<h3>Спасибо, заявка получена</h3><p>Полина или её ассистент свяжутся с вами в течение рабочего дня. Если удобнее — напишите нам в WhatsApp прямо сейчас.</p></div>';
+          (doc.lang === "en"
+            ? '<h3>Thank you, we have your request</h3><p>Polina or her assistant will get back to you within one business day. Prefer messaging? Write to us on WhatsApp right now.</p></div>'
+            : '<h3>Спасибо, заявка получена</h3><p>Полина или её ассистент свяжутся с вами в течение рабочего дня. Если удобнее — напишите нам в WhatsApp прямо сейчас.</p></div>');
         if (window.ym && cfg.metrika) try { window.ym(cfg.metrika, "reachGoal", "lead"); } catch (err) {}
       };
       var toWhatsApp = function () {

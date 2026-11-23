@@ -231,7 +231,32 @@ def footer(wa=None):
 </html>"""
 
 
+def ld_script(*objs):
+    return "".join(f'<script type="application/ld+json">{json.dumps(o, ensure_ascii=False)}</script>' for o in objs)
+
+
+ORG_ID = DOMAIN + "/#org"
+SECTION_NAMES = {"/portfolio/": "Портфолио", "/dubai/": "Свадьба в Дубае", "/education/": "Обучение",
+                 "/reviews/": "Отзывы", "/contacts/": "Контакты", "/policy/": "Политика конфиденциальности",
+                 "/en/dubai/": "Wedding in Dubai"}
+
+
+def breadcrumbs_ld(path):
+    if path in ("/", "/404.html"):
+        return ""
+    trail = [("Главная", "/")]
+    if path in SECTION_NAMES:
+        trail.append((SECTION_NAMES[path], path))
+    elif path.strip("/") in CASE_BY_SLUG:
+        trail += [("Портфолио", "/portfolio/"), (CASE_BY_SLUG[path.strip("/")]["title"], path)]
+    else:
+        return ""
+    return ld_script({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": i, "name": n, "item": DOMAIN + u} for i, (n, u) in enumerate(trail, 1)]})
+
+
 def page(path, title, desc, active, body, og_image=None, wa=None, extra_head=""):
+    extra_head = breadcrumbs_ld(path) + extra_head
     doc = head(title, desc, path, og_image).replace("</head>", extra_head + "\n</head>") + header(active) + body + footer(wa)
     doc = re.sub(r'(<a href="mailto:[^"]+">)([^<@]+)@([^<]+)</a>', r"\1\2<wbr>@\3</a>", doc)  # wrap e-mails before "@"
     doc = with_base(doc)
@@ -491,6 +516,57 @@ def press_strip():
     return f'<div class="press reveal">{award_html}<div class="press__logos"><span>О нас пишут</span>{imgs}</div></div>'
 
 
+def org_ld():
+    return {
+        "@context": "https://schema.org", "@type": "ProfessionalService", "@id": ORG_ID,
+        "name": "Vinogradova Event", "alternateName": "Виноградова Ивент",
+        "description": "Свадебное агентство полного цикла: организация свадеб в Москве, Дубае и Европе с 2015 года.",
+        "url": DOMAIN + "/", "image": DOMAIN + "/assets/img/site/hero.webp",
+        "telephone": C["tel"], "email": C["email"], "foundingDate": "2015",
+        "founder": {"@type": "Person", "name": "Полина Виноградова"},
+        "address": {"@type": "PostalAddress", "streetAddress": "1-я Тверская-Ямская, 25с1",
+                    "addressLocality": "Москва", "addressCountry": "RU"},
+        "openingHoursSpecification": [{"@type": "OpeningHoursSpecification",
+                                       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                                       "opens": "09:00", "closes": "21:00"}],
+        "areaServed": [{"@type": "City", "name": "Москва"}, {"@type": "City", "name": "Дубай"}],
+        "priceRange": "от 95 000 ₽",
+        "award": "White Wedding Industry Awards 2024 — «Лучшая свадьба в Дубае»",
+        "sameAs": [C["instagram"], C["vk"]],
+        "department": [{
+            "@type": "ProfessionalService", "name": "Vinogradova Event Dubai",
+            "telephone": C["dubai_tel"], "email": C["dubai_email"],
+            "address": {"@type": "PostalAddress", "streetAddress": "66 Al Marsa St, Dubai Marina",
+                        "addressLocality": "Dubai", "addressCountry": "AE"}}],
+    }
+
+
+def service_ld(name, area, currency, offers, lang="ru"):
+    return {
+        "@context": "https://schema.org", "@type": "Service", "name": name, "serviceType": "Организация свадьбы" if lang == "ru" else "Wedding planning",
+        "provider": {"@id": ORG_ID}, "areaServed": {"@type": "City", "name": area},
+        "offers": [{"@type": "Offer", "name": n, "price": str(v), "priceCurrency": currency} for n, v in offers],
+    }
+
+
+def case_ld(c, gallery):
+    base = f"{DOMAIN}/assets/img/cases/{c['slug']}"
+    d, m, y = c["date"].split(".")
+    imgs = [f"{base}/cover.webp"] + [f"{base}/{p['n']}.webp" for p in gallery[:8]]
+    return {
+        "@context": "https://schema.org", "@type": "ImageGallery", "name": c["title"],
+        "description": f"{c['title']}: {c['venue']}, {c['city']}, {c['guests']} {plural(c['guests'], 'гость', 'гостя', 'гостей')}.",
+        "dateCreated": f"{y}-{m}-{d}", "inLanguage": "ru",
+        "contentLocation": {"@type": "Place", "name": c["venue"], "address": c["city"]},
+        "creator": {"@id": ORG_ID}, "image": imgs,
+    }
+
+
+DUBAI_HREFLANG = (f'<link rel="alternate" hreflang="ru" href="{DOMAIN}/dubai/">'
+                  f'<link rel="alternate" hreflang="en" href="{DOMAIN}/en/dubai/">'
+                  f'<link rel="alternate" hreflang="x-default" href="{DOMAIN}/dubai/">')
+
+
 # ---------------------------------------------------------------- pages
 def build_home():
     featured = [CASE_BY_SLUG[s] for s in ("wedding-kempinski", "wedding-villa-miketti", "wedding-italy",
@@ -507,13 +583,10 @@ def build_home():
     insta = "".join(f'<img src="/assets/img/site/{n}.webp" alt="Фото из Instagram Vinogradova Event" loading="lazy">'
                     for n in IMAGES.get("instagram", [])[:12])
     insta_block = f'<div class="insta mt-l">{insta}</div>' if insta else ""
-    ld = {
-        "@context": "https://schema.org", "@type": "LocalBusiness", "name": "Vinogradova Event",
-        "description": "Свадебное агентство полного цикла в Москве и Дубае", "url": DOMAIN + "/",
-        "telephone": C["tel"], "email": C["email"], "foundingDate": "2015",
-        "address": {"@type": "PostalAddress", "streetAddress": "1-я Тверская-Ямская, 25с1", "addressLocality": "Москва", "addressCountry": "RU"},
-        "sameAs": [C["instagram"], C["vk"]], "priceRange": "95 000 ₽ – 7% от бюджета",
-    }
+    ld = org_ld()
+    service = service_ld("Организация свадьбы под ключ в Москве", "Москва", "RUB",
+                         [("Бюджет свадьбы до 1,5 млн ₽", 95000), ("Бюджет свадьбы 1,5–2,5 млн ₽", 130000),
+                          ("Бюджет свадьбы 2,5–3,5 млн ₽", 180000), ("Координатор на свадебный день", 15000)])
     body = f"""
 <section class="hero">
   <div class="hero__bg">{hero_image()}</div>
@@ -672,7 +745,7 @@ def build_home():
 """
     page("/", "Vinogradova Event — свадебное агентство в Москве и Дубае",
          "Организация свадьбы под ключ в Москве, Дубае и Европе. 520+ свадеб с 2015 года, победители премии «Лучшая свадьба в Дубае». Гонорар от 95 000 ₽.",
-         "home", body, extra_head=f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>')
+         "home", body, extra_head=ld_script(ld, service))
 
 
 def build_portfolio():
@@ -768,7 +841,7 @@ def build_cases():
         og = f"/assets/img/cases/{c['slug']}/cover.webp" if cover_info else None
         page(f"/{c['slug']}/", f"{c['title']} — Vinogradova Event",
              f"{c['title']}: {c['venue']}, {c['city']}, {c['guests']} {plural(c['guests'], 'гость', 'гостя', 'гостей')}. Фото и детали проекта свадебного агентства Vinogradova Event.",
-             "portfolio", body, og_image=og, wa=wa)
+             "portfolio", body, og_image=og, wa=wa, extra_head=ld_script(case_ld(c, g)))
 
 
 def build_dubai():
@@ -792,6 +865,7 @@ def build_dubai():
     <div class="hero__actions">
       <a class="btn btn--gold" href="#lead">Обсудить свадьбу в Дубае</a>
       <a class="btn btn--wa" href="https://wa.me/{C['dubai_wa']}" target="_blank" rel="noopener">{icon('wa', 18)} WhatsApp</a>
+      <a class="btn btn--ghost" href="/en/dubai/" lang="en" hreflang="en">English version</a>
     </div>
     <div class="hero__award">{icon('award', 34)}<span>{C['award']}</span></div>
   </div>
@@ -852,7 +926,10 @@ def build_dubai():
 """
     page("/dubai/", "Свадьба в Дубае под ключ — Vinogradova Event",
          "Организация свадьбы и предложения руки и сердца в Дубае и Абу-Даби. Офис в Dubai Marina, победители премии «Лучшая свадьба в Дубае». Гонорар от 8 500 AED.",
-         "dubai", body, og_image="/assets/img/site/dubai-hero.webp", wa=C["dubai_wa"])
+         "dubai", body, og_image="/assets/img/site/dubai-hero.webp", wa=C["dubai_wa"],
+         extra_head=ld_script(service_ld("Организация свадьбы под ключ в Дубае", "Дубай", "AED",
+                                         [("Бюджет свадьбы до 150 000 AED", 8500), ("Бюджет свадьбы 150 000–250 000 AED", 12500),
+                                          ("Бюджет свадьбы 250 000–400 000 AED", 18000), ("Координатор на свадебный день", 1500)])) + DUBAI_HREFLANG)
 
 
 EDU_MODULES = [
@@ -1012,7 +1089,14 @@ def build_education():
 """
     page("/education/", "Курс «Свадебный организатор» — обучение от Vinogradova Event",
          "Индивидуальный онлайн-курс для свадебных организаторов от Полины Виноградовой: 1 месяц, шаблоны документов, практика на свадьбе, сертификат. 35 000 ₽.",
-         "education", body)
+         "education", body, extra_head=ld_script({
+             "@context": "https://schema.org", "@type": "Course", "name": "Свадебный организатор",
+             "description": "Индивидуальный онлайн-курс по организации свадеб: работа с парой и подрядчиками, техническое оснащение, координация свадебного дня, собственный проект.",
+             "provider": {"@id": ORG_ID, "@type": "Organization", "name": "Vinogradova Event", "sameAs": DOMAIN + "/"},
+             "inLanguage": "ru",
+             "offers": [{"@type": "Offer", "category": "Paid", "price": "35000", "priceCurrency": "RUB"}],
+             "hasCourseInstance": [{"@type": "CourseInstance", "courseMode": "Online", "courseWorkload": "P1M",
+                                    "instructor": {"@type": "Person", "name": "Полина Виноградова"}}]}))
 
 
 def build_reviews():
@@ -1123,6 +1207,254 @@ def build_404():
     SITEMAP.remove("/404.html")
 
 
+
+# ---------------------------------------------------------------- English Dubai page
+def build_dubai_en():
+    path = "/en/dubai/"
+    wa = C["dubai_wa"]
+    cases = [c for c in CASES if c["region"] == "dubai"]
+
+    def cards():
+        out = []
+        for c in cases:
+            href = f"/{c['slug']}/"
+            gallery = IMAGES["cases"].get(c["slug"], {}).get("gallery", [])[: CARD_PHOTOS - 1]
+            base = f'/assets/img/cases/{c["slug"]}'
+            title = c.get("title_en", c["title"])
+            slides = [f'<a class="slide" href="{href}" tabindex="-1">{case_cover(c).replace(e(c["title"]), e(title))}</a>']
+            for k, p in enumerate(gallery, 2):
+                h = round(p["h"] * min(p["w"], 800) / p["w"])
+                slides.append(f'<a class="slide" href="{href}" tabindex="-1"><img src="{base}/{p["n"]}-sm.webp" width="{min(p["w"], 800)}" '
+                              f'height="{h}" alt="{e(title)} — photo {k}" loading="lazy" decoding="async"></a>')
+            dots = "".join(f'<span{" class=\"on\"" if i == 0 else ""}></span>' for i in range(len(slides)))
+            city = "Abu Dhabi" if "Абу" in c["city"] else "Dubai"
+            out.append(f"""<article class="case-card reveal">
+  <div class="case-card__img slider">
+    <div class="slider__track" data-slider>{''.join(slides)}</div>
+    <button class="slider__btn slider__btn--prev" type="button" aria-label="Previous photo">‹</button>
+    <button class="slider__btn slider__btn--next" type="button" aria-label="Next photo">›</button>
+    <div class="slider__dots" aria-hidden="true">{dots}</div>
+  </div>
+  <h3><a href="{href}">{e(title)}</a></h3>
+  <p>{city} · {c['guests']} {'guest' if c['guests'] == 1 else 'guests'} · {c['date'][-4:]}</p>
+</article>""")
+        return "\n".join(out)
+
+    tiers = [("up to 150,000 AED", "8,500 AED", False), ("150,000–250,000 AED", "12,500 AED", True),
+             ("250,000–400,000 AED", "18,000 AED", False), ("from 400,000 AED", "8%", False)]
+    price_cards = "".join(f"""<div class="price{' price--hl" data-label="Most popular' if hl else ''}">
+  <div class="price__budget">Wedding budget<b>{b}</b></div>
+  <div class="price__fee">{fee}</div>
+  <p class="price__note">{'of the wedding budget' if fee.endswith('%') else 'agency fee'}</p>
+</div>""" for b, fee, hl in tiers)
+
+    steps = [
+        ("Call or WhatsApp", "Tell us about your plans and we'll set up a meeting — in person or online."),
+        ("Meeting", "We show you venue options, programme and décor ideas, and draft a budget."),
+        ("Contract", "We agree the estimate and sign a contract, so you know exactly what to expect."),
+        ("Project chat", "One shared chat for every decision, approval and update."),
+        ("Wedding day", "Our team runs the day on site. Your only job is to enjoy it."),
+        ("Afterglow", "A couple of months later we meet again and hand over your photos and video."),
+    ]
+    faq = [
+        ("How much does a wedding planner in Dubai cost?",
+         "Our fee is fixed and depends on the total wedding budget: from 8,500 AED for budgets up to 150,000 AED, and 8% for budgets from 400,000 AED. You know the exact fee before signing the contract."),
+        ("What is included in full planning?",
+         "Venue search and booking, photographer, videographer, host, DJ and performers, décor, florals and technical equipment, hair and make-up, the cake, the budget and the day's timeline — plus 2 planners during preparation and at least 2 coordinators on the wedding day."),
+        ("Can we book day-of coordination only?",
+         "Yes. If you are planning the wedding yourselves, a coordinator for the whole wedding day costs 1,500 AED."),
+        ("Do you also plan proposals?",
+         "Yes — we organise marriage proposals in some of the most beautiful spots in Dubai."),
+    ]
+    faq_html = "".join(f'<details><summary>{q}</summary><div class="faq__a">{a}</div></details>' for q, a in faq)
+    faq_ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}
+
+    form = f"""<form class="form" data-lead="Request from the English Dubai page" data-wa="{wa}" novalidate>
+  <h3>Tell us about your wedding</h3>
+  <p>We'll get back to you within one business day.</p>
+  <div class="field"><label for="en-name">Your name</label><input id="en-name" name="name" data-label="Name" autocomplete="name" placeholder="Name"></div>
+  <div class="field"><label for="en-phone">Phone or WhatsApp *</label>
+    <input id="en-phone" name="phone" data-label="Phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+971 50 000 0000" required>
+    <span class="err">Please enter your full phone number</span></div>
+  <div class="field--row">
+    <div class="field"><label for="en-date">Wedding date</label><input id="en-date" name="date" data-label="Date" placeholder="e.g. March 2027"></div>
+    <div class="field"><label for="en-guests">Guests</label><input id="en-guests" name="guests" data-label="Guests" inputmode="numeric" placeholder="About 60"></div>
+  </div>
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+  <button class="btn btn--gold btn--block" type="submit">Send request</button>
+  <p class="form__legal">By sending this form you agree to our <a href="/policy/">privacy policy</a> (in Russian).</p>
+</form>"""
+
+    nav = [("#why", "Why us"), ("#weddings", "Weddings"), ("#price", "Prices"), ("#process", "How we work"), ("#faq", "FAQ")]
+    nav_html = "".join(f'<a href="{h}">{l}</a>' for h, l in nav)
+    body_top = f"""<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="header">
+  <div class="wrap header__in">
+    <a class="logo" href="/en/dubai/" aria-label="Vinogradova Event Dubai"><b>Vinogradova</b><span>Wedding &amp; Event</span></a>
+    <nav class="nav" aria-label="Main menu">{nav_html}<a href="/dubai/" lang="ru" hreflang="ru">RU</a></nav>
+    <div class="header__contact">
+      <a class="header__phone" href="tel:{C['dubai_tel']}">{C['dubai_phone']}</a>
+      <a class="btn btn--gold" href="#lead">Plan my wedding</a>
+    </div>
+    <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu"><span></span></button>
+  </div>
+</header>
+<nav class="mobile-menu" id="mobile-menu" aria-label="Mobile menu">
+  {nav_html}
+  <a href="/dubai/" lang="ru" hreflang="ru">Русская версия</a>
+  <a class="btn btn--gold" href="#lead">Plan my wedding</a>
+  <a class="btn btn--ghost" href="tel:{C['dubai_tel']}">{icon('phone', 18)} {C['dubai_phone']}</a>
+</nav>
+<main id="main">"""
+
+    body = f"""
+<section class="hero">
+  <div class="hero__bg">{site_img('dubai-hero', 'Wedding on Bluewaters Island, Dubai, by Vinogradova Event', eager=True)}</div>
+  <div class="wrap hero__in">
+    <span class="eyebrow">Wedding planner in Dubai &amp; the UAE</span>
+    <h1>Your Dubai wedding, planned end-to-end by&nbsp;a&nbsp;team based here</h1>
+    <p class="lead">An office in Dubai Marina, trusted venues and vendors. We take care of everything — from the hotel to the last dance — so all you have to do is arrive.</p>
+    <div class="hero__actions">
+      <a class="btn btn--gold" href="#lead">Plan my wedding</a>
+      <a class="btn btn--wa" href="https://wa.me/{wa}" target="_blank" rel="noopener">{icon('wa', 18)} WhatsApp</a>
+    </div>
+    <div class="hero__award">{icon('award', 34)}<span>Winners of the White Wedding Industry Awards 2024 — Best Wedding in Dubai</span></div>
+  </div>
+</section>
+
+<section class="section section--tight"><div class="wrap">
+<div class="stats reveal">
+  <div class="stat"><b>520+</b><span>weddings and events planned</span></div>
+  <div class="stat"><b>11 years</b><span>in the wedding industry, since 2015</span></div>
+  <div class="stat"><b>10–6,000</b><span>guests: from intimate dinners to grand celebrations</span></div>
+  <div class="stat"><b>2 offices</b><span>in Dubai and Moscow</span></div>
+</div>{press_strip().replace('О нас пишут', 'As featured in').replace('Лучшая свадьба в Дубае', 'Best Wedding in Dubai')}
+</div></section>
+
+<section class="section section--cream" id="why">
+  <div class="wrap">
+    <div class="section-head"><div><span class="eyebrow">Why us</span><h2>A destination wedding without the stress</h2></div>
+      <p>Six reasons couples trust us with the most important day of their lives — and often become our friends.</p></div>
+    <div class="cards">
+      <div class="card reveal"><span class="card__num">01</span><h3>Our own team in Dubai</h3><p>Planners and coordinators on the ground visit venues, meet vendors and oversee every detail for you.</p></div>
+      <div class="card reveal"><span class="card__num">02</span><h3>The best venues</h3><p>Kempinski The Palm, Bluewaters, Hyatt Regency, Anantara in Abu Dhabi, private villas — we'll find the place that fits your style and budget.</p></div>
+      <div class="card reveal"><span class="card__num">03</span><h3>Award-winning</h3><p>One of our Dubai weddings won the White Wedding Industry Awards 2024 in the Best Wedding in Dubai category.</p></div>
+      <div class="card reveal"><span class="card__num">04</span><h3>Easy from anywhere</h3><p>A shared project chat and online approvals keep you in the loop wherever you are.</p></div>
+      <div class="card reveal"><span class="card__num">05</span><h3>Weddings and proposals</h3><p>Beyond weddings, we create romantic marriage proposals in Dubai's most beautiful locations.</p></div>
+      <div class="card reveal"><span class="card__num">06</span><h3>Experience since 2015</h3><p>More than 520 weddings in Russia and the UAE, from intimate ceremonies to celebrations for hundreds of guests.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="weddings">
+  <div class="wrap">
+    <div class="section-head"><div><span class="eyebrow">Portfolio</span><h2>Our weddings in the UAE</h2></div>
+      <p>Swipe through the photos on each card. Tap a card to open the full gallery.</p></div>
+    <div class="grid-cases">{cards()}</div>
+  </div>
+</section>
+
+<section class="section section--cream" id="price">
+  <div class="wrap">
+    <div class="section-head"><div><span class="eyebrow">Prices</span><h2>Wedding planning fees in&nbsp;Dubai</h2></div>
+      <p>A fixed agency fee based on your total wedding budget. You know the exact amount before signing the contract.</p></div>
+    <div class="pricing reveal">{price_cards}</div>
+    <div class="price-extra reveal">
+      <div class="price-box">
+        <h3>What full planning includes</h3>
+        <ul class="checks">
+          <li>Venue search and booking</li>
+          <li>Your team: photographer, videographer, host, DJ and performers</li>
+          <li>Décor, florals and technical equipment</li>
+          <li>Hair and make-up, the cake and every other detail</li>
+          <li>Budget, timeline and run of show</li>
+          <li>2 planners during preparation and at least 2 coordinators on the day</li>
+        </ul>
+      </div>
+      <div class="price-box price-box--alt">
+        <h3>Planning it yourselves?</h3>
+        <p>Book a coordinator for the whole wedding day. They'll manage vendors and timing and handle any hiccups — so you can simply enjoy it.</p>
+        <div class="price__fee">1,500 AED</div>
+        <p class="price__note" style="color:rgba(243,235,225,.6)">day-of coordinator</p>
+      </div>
+    </div>
+    <div class="actions"><a class="btn btn--gold" href="#lead">Get a quote</a></div>
+  </div>
+</section>
+
+<section class="section section--dark" id="process">
+  <div class="wrap">
+    <div class="section-head"><div><span class="eyebrow">How we work</span><h2>Six steps to your Dubai wedding</h2></div></div>
+    <ol class="steps" style="--n:6">{''.join(f'<li class="step reveal"><h3>{t}</h3><p>{d}</p></li>' for t, d in steps)}</ol>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="wrap split" style="align-items:start">
+    <div><span class="eyebrow">FAQ</span><h2>Questions couples ask</h2>
+      <p class="lead" style="margin-top:18px">Didn't find your answer? Message us — we'll reply personally.</p></div>
+    <div class="faq">{faq_html}</div>
+  </div>
+</section>
+
+<section class="section section--dark" id="lead">
+  <div class="wrap lead-block">
+    <div>
+      <span class="eyebrow">Dubai Marina office</span>
+      <h2>Let's talk about your wedding</h2>
+      <p class="lead" style="color:rgba(243,235,225,.8);margin-top:20px">Leave a request or message us on WhatsApp — we'll tell you about venues, dates and budgets. No obligation.</p>
+      <ul class="contact-lines">
+        <li>{icon('phone')}<div><a href="tel:{C['dubai_tel']}">{C['dubai_phone']}</a><small>9:00–21:00 Dubai time</small></div></li>
+        <li>{icon('wa')}<div><a href="https://wa.me/{wa}" target="_blank" rel="noopener">Message us on WhatsApp</a></div></li>
+        <li>{icon('mail')}<div><a href="mailto:{C['dubai_email']}">{C['dubai_email']}</a></div></li>
+        <li>{icon('pin')}<div><a href="{C['dubai_map']}" target="_blank" rel="noopener">{C['dubai_address']}</a></div></li>
+      </ul>
+    </div>
+    {form}
+  </div>
+</section>
+"""
+    foot = f"""</main>
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid" style="grid-template-columns:1.4fr 1fr 1fr">
+      <div>
+        <a class="logo" href="/en/dubai/"><b>Vinogradova</b><span>Wedding &amp; Event</span></a>
+        <p style="margin-top:20px;max-width:340px">Full-service wedding agency. Weddings in Dubai, Moscow and Europe since 2015.</p>
+      </div>
+      <div><h4>Dubai</h4><ul>
+        <li><a href="tel:{C['dubai_tel']}">{C['dubai_phone']}</a></li>
+        <li><a href="mailto:{C['dubai_email']}">{C['dubai_email']}</a></li>
+        <li><a href="{C['dubai_map']}" target="_blank" rel="noopener">{C['dubai_address']}</a></li></ul></div>
+      <div><h4>Language</h4><ul><li><a href="/dubai/" lang="ru" hreflang="ru">Русская версия</a></li><li><a href="/" lang="ru" hreflang="ru">Главная (RU)</a></li></ul></div>
+    </div>
+    <div class="footer__bottom"><span>© 2015–2026 Vinogradova Event</span><a href="/policy/">Privacy policy (RU)</a></div>
+  </div>
+</footer>
+<a class="fab" href="https://wa.me/{wa}" target="_blank" rel="noopener">{icon('wa', 22)} WhatsApp</a>
+<script src="/assets/js/main.js?v={VERSION}" defer></script>
+</body>
+</html>"""
+    title = "Wedding Planner in Dubai — Vinogradova Event"
+    desc = ("Full-service wedding planning and marriage proposals in Dubai and Abu Dhabi. Office in Dubai Marina, "
+            "winners of the Best Wedding in Dubai award 2024. Fees from 8,500 AED.")
+    hd = head(title, desc, path, "/assets/img/site/dubai-hero.webp")
+    hd = hd.replace('<html lang="ru">', '<html lang="en">').replace('content="ru_RU"', 'content="en_US"')
+    hd = hd.replace("</head>", DUBAI_HREFLANG + breadcrumbs_ld(path) + ld_script(
+        service_ld("Wedding planning in Dubai", "Dubai", "AED",
+                   [("Wedding budget up to 150,000 AED", 8500), ("Wedding budget 150,000–250,000 AED", 12500),
+                    ("Wedding budget 250,000–400,000 AED", 18000), ("Day-of coordinator", 1500)], lang="en"), faq_ld) + "\n</head>")
+    doc = hd + body_top + body + foot
+    doc = re.sub(r'(<a href="mailto:[^"]+">)([^<@]+)@([^<]+)</a>', r"\1\2<wbr>@\3</a>", doc)
+    doc = with_base(doc)
+    dest = OUT / "en/dubai/index.html"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(doc)
+    SITEMAP.append(path)
+
+
 # ---------------------------------------------------------------- main
 SITEMAP = []
 VERSION = "1"
@@ -1147,6 +1479,7 @@ def main():
     build_portfolio()
     build_cases()
     build_dubai()
+    build_dubai_en()
     build_education()
     build_reviews()
     build_contacts()
