@@ -233,6 +233,7 @@ def footer(wa=None):
 
 def page(path, title, desc, active, body, og_image=None, wa=None, extra_head=""):
     doc = head(title, desc, path, og_image).replace("</head>", extra_head + "\n</head>") + header(active) + body + footer(wa)
+    doc = re.sub(r'(<a href="mailto:[^"]+">)([^<@]+)@([^<]+)</a>', r"\1\2<wbr>@\3</a>", doc)  # wrap e-mails before "@"
     doc = with_base(doc)
     dest = OUT / path.strip("/") / "index.html" if path != "/" else OUT / "index.html"
     if path.endswith(".html"):
@@ -1050,7 +1051,7 @@ def build_contacts():
 </section>
 <section class="section">
   <div class="wrap">
-    <div class="price-extra" style="grid-template-columns:1fr 1fr;margin:0">
+    <div class="price-extra offices">
       <div class="price-box">
         <span class="eyebrow">Москва</span>
         <ul class="contact-lines" style="margin-top:8px">
