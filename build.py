@@ -74,7 +74,7 @@ NAV = [
     ("/contacts/", "Контакты", "contacts"),
 ]
 
-REGION_LABEL = {"moscow": "Москва", "dubai": "ОАЭ", "europe": "Европа"}
+REGION_LABEL = {"moscow": "Россия", "dubai": "ОАЭ", "europe": "Европа"}
 
 e = html.escape
 
@@ -677,7 +677,7 @@ def build_home():
 
 def build_portfolio():
     counts = {r: sum(1 for c in CASES if c["region"] == r) for r in REGION_LABEL}
-    chips = [("all", "Все", len(CASES)), ("moscow", "Москва и область", counts["moscow"]),
+    chips = [("all", "Все", len(CASES)), ("moscow", "Москва и Россия", counts["moscow"]),
              ("dubai", "Дубай и ОАЭ", counts["dubai"]), ("europe", "Европа", counts["europe"])]
     chip_html = "".join(f'<button class="chip" type="button" data-filter="{k}" aria-pressed="{str(k == "all").lower()}">{l}<small>{n}</small></button>'
                         for k, l, n in chips)
@@ -719,7 +719,7 @@ def build_cases():
         guests = f'{c["guests"]}'
         cover_info = IMAGES["cases"].get(c["slug"], {}).get("cover")
         hero_bg = case_cover(c, sizes="100vw", eager=True, full=True) if cover_info else ""
-        kind = "Предложение" if "proposal" in c["slug"] else "Love story" if "love-story" in c["slug"] else "Свадьба"
+        kind = "Предложение" if "proposal" in c["slug"] else "Love story" if "love-story" in c["slug"] else "Роспись" if "engaging" in c["slug"] else "Свадьба"
         body = f"""
 <section class="hero hero--page">
   <div class="hero__bg">{hero_bg}</div>

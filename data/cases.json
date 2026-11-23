@@ -1,5 +1,15 @@
 [
  {
+  "slug": "wedding-anatara-1",
+  "title": "Свадьба в Anantara",
+  "venue": "Anantara",
+  "city": "Абу-Даби",
+  "region": "dubai",
+  "guests": 40,
+  "date": "24.10.2024",
+  "cover_src": "https://static.tildacdn.com/tild3561-3064-4336-b562-303237623766/Photo-248_2.jpg"
+ },
+ {
   "slug": "wedding-kempinski",
   "title": "Свадьба в Kempinski The Palm",
   "venue": "Kempinski Hotel & Residences The Palm",
@@ -30,6 +40,16 @@
   "cover_src": "https://static.tildacdn.com/tild3033-3539-4133-b164-343262353432/FedyaRo-15_resized.jpg"
  },
  {
+  "slug": "wedding-melia",
+  "title": "Свадьба в Melia",
+  "venue": "Melia",
+  "city": "Дубай",
+  "region": "dubai",
+  "guests": 70,
+  "date": "01.03.2024",
+  "cover_src": "https://static.tildacdn.com/tild3732-3033-4532-b437-646235326638/bi-175.jpg"
+ },
+ {
   "slug": "dubai-wedding-4",
   "title": "Свадьба на частной вилле",
   "venue": "Частная вилла",
@@ -38,16 +58,6 @@
   "guests": 20,
   "date": "24.02.2024",
   "cover_src": "https://static.tildacdn.com/tild6535-3231-4338-a561-363836333035/__2025-05-02__192402.png"
- },
- {
-  "slug": "wedding-anatara-1",
-  "title": "Свадьба в Anantara",
-  "venue": "Anantara",
-  "city": "Абу-Даби",
-  "region": "dubai",
-  "guests": 40,
-  "date": "24.10.2024",
-  "cover_src": "https://static.tildacdn.com/tild3561-3064-4336-b562-303237623766/Photo-248_2.jpg"
  },
  {
   "slug": "wedding-anantara-2",
@@ -60,6 +70,16 @@
   "cover_src": "https://static.tildacdn.com/tild3734-3461-4766-b030-363434646236/IMG_0536.jpg"
  },
  {
+  "slug": "dubai-wedding-2",
+  "title": "Свадьба в Дубае на 80 гостей",
+  "venue": "Дубай",
+  "city": "Дубай",
+  "region": "dubai",
+  "guests": 80,
+  "date": "02.02.2023",
+  "cover_src": "https://static.tildacdn.com/tild3037-3134-4539-b930-366132663633/photo.jpg"
+ },
+ {
   "slug": "dubai-proposal",
   "title": "Предложение руки и сердца",
   "venue": "Дубай",
@@ -68,6 +88,16 @@
   "guests": 5,
   "date": "03.01.2023",
   "cover_src": "https://static.tildacdn.com/tild3362-6131-4537-b331-636533343539/photo.JPG"
+ },
+ {
+  "slug": "dubai-wedding-1",
+  "title": "Свадьба в Дубае",
+  "venue": "Дубай",
+  "city": "Дубай",
+  "region": "dubai",
+  "guests": 60,
+  "date": "15.10.2022",
+  "cover_src": "https://static.tildacdn.com/tild3366-3933-4236-b130-613663313763/photo.jpg"
  },
  {
   "slug": "wedding-villa-miketti",
@@ -110,6 +140,36 @@
   "cover_src": "https://static.tildacdn.com/tild6562-3531-4163-a339-363965656230/photo.JPG"
  },
  {
+  "slug": "wedding-soho-rooms-2021",
+  "title": "Свадьба в Soho Rooms, 2021",
+  "venue": "Soho Rooms",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 120,
+  "date": "27.10.2021",
+  "cover_src": "https://static.tildacdn.com/tild3731-3863-4136-b934-373830633863/photo.jpg"
+ },
+ {
+  "slug": "wedding-usadba-palmira",
+  "title": "Свадьба в усадьбе «Пальмира»",
+  "venue": "Усадьба Пальмира",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 60,
+  "date": "14.09.2021",
+  "cover_src": "https://static.tildacdn.com/tild3763-3563-4435-b838-616564643731/140921-430.jpg"
+ },
+ {
+  "slug": "wedding-villa-politika-2021",
+  "title": "Свадьба на Вилле Политика, 2021",
+  "venue": "Вилла Политика",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 60,
+  "date": "10.09.2021",
+  "cover_src": "https://static.tildacdn.com/tild3037-3034-4533-b564-346261653965/photo.jpg"
+ },
+ {
   "slug": "wedding-jan-remi",
   "title": "Свадьба в «Жан Реми»",
   "venue": "Жан Реми",
@@ -140,6 +200,26 @@
   "cover_src": "https://static.tildacdn.com/tild3061-3162-4532-a166-623633613834/photo.jpg"
  },
  {
+  "slug": "wedding-loft-holl",
+  "title": "Свадьба в «Лофт Холле»",
+  "venue": "Лофт Холл",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 80,
+  "date": "08.05.2021",
+  "cover_src": "https://static.tildacdn.com/tild6266-3234-4739-a261-383564666466/photo.jpg"
+ },
+ {
+  "slug": "wedding-dream-hills",
+  "title": "Свадьба в Dream Hills Club",
+  "venue": "Dream Hills Club",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 70,
+  "date": "19.10.2019",
+  "cover_src": "https://static.tildacdn.com/tild3138-3339-4563-b666-346637303565/photo.jpg"
+ },
+ {
   "slug": "wedding-shale-berezka",
   "title": "Свадьба в «Шале Берёзка»",
   "venue": "Шале Берёзка",
@@ -160,6 +240,86 @@
   "cover_src": "https://static.tildacdn.com/tild3336-6531-4339-a563-313464363234/photo.JPG"
  },
  {
+  "slug": "wedding-golfclub-dmitrov",
+  "title": "Свадьба в Дмитров Гольф Клубе",
+  "venue": "Дмитров Гольф Клуб",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 70,
+  "date": "08.08.2019",
+  "cover_src": "https://static.tildacdn.com/tild6136-3639-4934-a234-306237663334/photo.JPG"
+ },
+ {
+  "slug": "wedding-villa-politika-2019",
+  "title": "Свадьба на Вилле Политика, 2019",
+  "venue": "Вилла Политика",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 40,
+  "date": "05.08.2019",
+  "cover_src": "https://static.tildacdn.com/tild3862-3339-4161-a331-303734633063/photo.jpg"
+ },
+ {
+  "slug": "wedding-pm-loft",
+  "title": "Свадьба в PM Loft",
+  "venue": "PM Loft",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 25,
+  "date": "21.07.2019",
+  "cover_src": "https://static.tildacdn.com/tild3236-3265-4966-a230-356466636665/photo.JPG"
+ },
+ {
+  "slug": "wedding-barviha-luxury-village",
+  "title": "Свадьба в Барвиха Luxury Village",
+  "venue": "Барвиха Luxury Village",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 65,
+  "date": "15.09.2018",
+  "cover_src": "https://static.tildacdn.com/tild6330-3732-4761-b164-653862343838/photo.jpg"
+ },
+ {
+  "slug": "wedding-mary-jane",
+  "title": "Свадьба в «Мэри Джейн»",
+  "venue": "Мэри Джейн",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 60,
+  "date": "26.08.2018",
+  "cover_src": "https://static.tildacdn.com/tild3666-3064-4632-b932-333436303437/teaser_056.jpg"
+ },
+ {
+  "slug": "wedding-les-event-house",
+  "title": "Свадьба в Les Event House",
+  "venue": "Les Event House",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 85,
+  "date": "11.08.2018",
+  "cover_src": "https://static.tildacdn.com/tild3136-3566-4234-b063-663533336638/teaser_041.jpg"
+ },
+ {
+  "slug": "wedding-lesnaya-dacha",
+  "title": "Свадьба в «Лесной даче»",
+  "venue": "Лесная дача",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 60,
+  "date": "11.08.2018",
+  "cover_src": "https://static.tildacdn.com/tild3763-3239-4734-b439-346436616531/photo.JPG"
+ },
+ {
+  "slug": "engaging-barviha",
+  "title": "Роспись в Барвихе",
+  "venue": "Барвиха",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 2,
+  "date": "21.07.2018",
+  "cover_src": "https://static.tildacdn.com/tild3238-3962-4233-a434-353566383166/SJ_D1_201.JPG"
+ },
+ {
   "slug": "wedding-artiland",
   "title": "Свадьба в Artiland",
   "venue": "Artiland",
@@ -168,6 +328,36 @@
   "guests": 70,
   "date": "31.08.2017",
   "cover_src": "https://static.tildacdn.com/tild6539-3535-4139-b565-353935666537/NT-444.jpg"
+ },
+ {
+  "slug": "wedding-french-mansion",
+  "title": "Свадьба во французском особняке",
+  "venue": "Французский особняк",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 70,
+  "date": "08.08.2017",
+  "cover_src": "https://static.tildacdn.com/tild3630-3535-4431-a363-333230663165/__by_roman_ivanov_we.jpg"
+ },
+ {
+  "slug": "love-story-konduki",
+  "title": "Love story в Кондуках",
+  "venue": "Кондуки",
+  "city": "Тульская область",
+  "region": "moscow",
+  "guests": 2,
+  "date": "01.08.2017",
+  "cover_src": "https://static.tildacdn.com/tild3230-6131-4466-a231-346565343132/photo-125.jpg"
+ },
+ {
+  "slug": "wedding-double-tree-by-hilton",
+  "title": "Свадьба в DoubleTree by Hilton",
+  "venue": "DoubleTree by Hilton",
+  "city": "Москва и область",
+  "region": "moscow",
+  "guests": 90,
+  "date": "08.07.2017",
+  "cover_src": "https://static.tildacdn.com/tild3036-6162-4435-a336-313461393263/138.jpg"
  },
  {
   "slug": "wedding-italy",
