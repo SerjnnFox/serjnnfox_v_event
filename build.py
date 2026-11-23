@@ -964,7 +964,7 @@ def build_education():
 
 <section class="section">
   <div class="wrap split">
-    <figure class="split__media reveal" style="margin:0">{site_img('edu-founder', 'Полина Виноградова', sizes='(max-width: 860px) 100vw, 50vw')}</figure>
+    <figure class="split__media reveal" style="margin:0">{site_img('founder', 'Полина Виноградова, автор курса', sizes='(max-width: 860px) 100vw, 50vw')}</figure>
     <div class="reveal">
       <span class="eyebrow">Автор курса</span>
       <h2>Полина Виноградова</h2>
