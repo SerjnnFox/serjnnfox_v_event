@@ -14,6 +14,7 @@ import io
 import json
 import pathlib
 import sys
+import time
 import urllib.request
 
 from PIL import Image, ImageOps
@@ -49,10 +50,16 @@ SITE_ROLES = {
 INSTAGRAM = [f"{i:02d}.jpg" for i in range(1, 17)] + ["07.JPG"]
 
 
-def get(url):
+def get(url, tries=4):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 site-migration"})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        return r.read()
+    for i in range(tries):
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                return r.read()
+        except Exception:
+            if i == tries - 1:
+                raise
+            time.sleep(2 * (i + 1))
 
 
 def save(img, path, width, keep_alpha=False):

@@ -388,3 +388,19 @@ em.accent { font-style: italic; color: var(--gold-ink); }
 .mt-0 { margin-top: 0; } .mt-l { margin-top: clamp(36px, 5vw, 60px); }
 .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
 .hero__bg .ph { color: transparent; background: linear-gradient(135deg, #cdbfae, #6f6257); }
+
+/* Awards & press strip */
+.press { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px 48px; padding: 32px 0 0; }
+.press__award { display: flex; align-items: center; gap: 18px; }
+.press__award img { width: 88px; height: auto; }
+.press__award p { margin: 0; font-size: 14px; color: var(--ink-2); line-height: 1.4; }
+.press__award b { display: block; font: 400 20px/1.3 var(--serif); color: var(--ink); }
+.press__logos { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 40px; }
+.press__logos span { font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.press__logos img { height: 34px; width: auto; filter: grayscale(1) contrast(1.1); mix-blend-mode: multiply; opacity: .8; }
+/* Team photos */
+.team-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.team-row figure { margin: 0; }
+.team-row img, .team-row .ph { width: 100%; aspect-ratio: 3/2; object-fit: cover; border-radius: var(--radius); }
+.team-row figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); }
+@media (max-width: 760px) { .team-row { grid-template-columns: 1fr; } }

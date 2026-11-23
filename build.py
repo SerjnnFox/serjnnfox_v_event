@@ -45,7 +45,7 @@ C = {
     "instagram": "https://instagram.com/vinogradova_event",
     "vk": "https://vk.com/vinogradova.event",
     "youtube": "sySyEJiA2Pg",
-    "award": "Победители White Sposa Wedding Industry Awards 2024 в номинации «Лучшая свадьба в Дубае»",
+    "award": "Победители White Wedding Industry Awards 2024 в номинации «Лучшая свадьба в Дубае»",
 }
 
 CURRENT = ' aria-current="page"'
@@ -424,6 +424,35 @@ def video_block():
 </div>"""
 
 
+HERO_CASE = ("wedding-villa-miketti", None)  # (case slug, gallery photo number or None for cover)
+
+
+def hero_image():
+    slug, n = HERO_CASE
+    info = IMAGES["cases"].get(slug, {})
+    if n:
+        p = next((g for g in info.get("gallery", []) if g["n"] == n), None)
+        if p:
+            base = f"/assets/img/cases/{slug}/{n}"
+            return (f'<img src="{base}.webp" srcset="{base}-sm.webp 800w, {base}.webp {p["w"]}w" sizes="100vw" '
+                    f'width="{p["w"]}" height="{p["h"]}" alt="Свадьба, организованная Vinogradova Event" fetchpriority="high">')
+    if info.get("cover"):
+        return case_cover(CASE_BY_SLUG[slug], sizes="100vw", eager=True, full=True)
+    return site_img("dubai-hero", "Свадьба, организованная Vinogradova Event", eager=True)
+
+
+def press_strip():
+    logos = [(r, a) for r, a in (("press-4", "Zankyou"), ("press-5", "Невеста Moscow"),
+                                 ("press-1", "Публикация"), ("press-2", "Публикация")) if r in IMAGES["site"]]
+    award = IMAGES["site"].get("award")
+    if not logos and not award:
+        return ""
+    award_html = (f'<div class="press__award"><img src="/assets/img/site/award.webp" alt="White Wedding Industry Awards 2024" loading="lazy">'
+                  f'<p><b>Лучшая свадьба в Дубае</b>White Wedding Industry Awards 2024</p></div>') if award else ""
+    imgs = "".join(f'<img src="/assets/img/site/{r}.webp" alt="{a}" loading="lazy">' for r, a in logos)
+    return f'<div class="press reveal">{award_html}<div class="press__logos"><span>О нас пишут</span>{imgs}</div></div>'
+
+
 # ---------------------------------------------------------------- pages
 def build_home():
     featured = [CASE_BY_SLUG[s] for s in ("wedding-kempinski", "wedding-villa-miketti", "wedding-italy",
@@ -449,7 +478,7 @@ def build_home():
     }
     body = f"""
 <section class="hero">
-  <div class="hero__bg">{site_img('hero', 'Свадьба, организованная Vinogradova Event', eager=True)}</div>
+  <div class="hero__bg">{hero_image()}</div>
   <div class="wrap hero__in">
     <span class="eyebrow">Свадебное агентство · Москва и Дубай</span>
     <h1>Свадьба, которую вы&nbsp;проживёте, а&nbsp;не&nbsp;организуете</h1>
@@ -463,7 +492,7 @@ def build_home():
 </section>
 
 <section class="section section--tight">
-  <div class="wrap">{stats_block()}</div>
+  <div class="wrap">{stats_block()}{press_strip()}</div>
 </section>
 
 <section class="section section--cream" id="about">
@@ -499,6 +528,10 @@ def build_home():
       <div class="card reveal"><span class="card__num">04</span><h3>Понятная стоимость</h3><p>Фиксированный гонорар, прозрачная смета и договор. Вы заранее знаете, за что и сколько платите.</p></div>
       <div class="card reveal"><span class="card__num">05</span><h3>Москва, Дубай и мир</h3><p>Офисы и команды в Москве и Дубае. Проводим свадьбы в ОАЭ, Италии и других странах.</p></div>
       <div class="card reveal"><span class="card__num">06</span><h3>Рядом и после свадьбы</h3><p>Закрытый чат для невест и уютные встречи по интересам — наше общение не заканчивается в день торжества.</p></div>
+    </div>
+    <div class="team-row mt-l">
+      <figure class="reveal">{site_img('hero', 'Команда Vinogradova Event с молодожёнами', sizes='(max-width: 760px) 100vw, 50vw')}<figcaption>Команда Vinogradova Event в день свадьбы</figcaption></figure>
+      <figure class="reveal">{site_img('dubai-teaser', 'В офисе Vinogradova Event', sizes='(max-width: 760px) 100vw, 50vw')}<figcaption>В офисе Vinogradova Event</figcaption></figure>
     </div>
   </div>
 </section>
@@ -548,7 +581,7 @@ def build_home():
 <section class="section">
   <div class="wrap">
     <div class="banner reveal">
-      {site_img('dubai-teaser', 'Свадьба в Дубае')}
+      {site_img('dubai-hero', 'Свадьба в Дубае на Bluewaters')}
       <div class="banner__in">
         <span class="eyebrow">Свадьба в Дубае</span>
         <h2>Мечтаете о свадьбе у моря?</h2>
@@ -736,7 +769,7 @@ def build_dubai():
     <div class="cards">
       <div class="card reveal"><span class="card__num">01</span><h3>Своя команда в Дубае</h3><p>Организаторы и координаторы работают на месте: смотрят площадки, встречаются с подрядчиками и контролируют подготовку вместо вас.</p></div>
       <div class="card reveal"><span class="card__num">02</span><h3>Знаем лучшие площадки</h3><p>Kempinski The Palm, Bluewaters, Hyatt Regency, Anantara в Абу-Даби, частные виллы — подберём место под ваш стиль и бюджет.</p></div>
-      <div class="card reveal"><span class="card__num">03</span><h3>Признанное качество</h3><p>Наша свадьба в Дубае получила премию White Sposa Wedding Industry Awards 2024 в номинации «Лучшая свадьба в Дубае».</p></div>
+      <div class="card reveal"><span class="card__num">03</span><h3>Признанное качество</h3><p>Наша свадьба в Дубае получила премию White Wedding Industry Awards 2024 в номинации «Лучшая свадьба в Дубае».</p></div>
       <div class="card reveal"><span class="card__num">04</span><h3>Удобно на расстоянии</h3><p>Общий чат проекта и согласования онлайн — вы в курсе каждого решения, где бы ни находились.</p></div>
       <div class="card reveal"><span class="card__num">05</span><h3>Свадьба или предложение</h3><p>Организуем не только свадьбу, но и романтичное предложение руки и сердца в самых красивых местах Дубая.</p></div>
       <div class="card reveal"><span class="card__num">06</span><h3>Опыт с 2015 года</h3><p>Более 520 свадеб в России и ОАЭ — от камерных церемоний до праздников на сотни гостей.</p></div>
@@ -923,7 +956,7 @@ def build_education():
       <ul class="checks">
         <li>520+ мероприятий в России и ОАЭ</li>
         <li>В индустрии с 2015 года</li>
-        <li>Премия White Sposa Wedding Industry Awards 2024, «Лучшая свадьба в Дубае»</li>
+        <li>Премия White Wedding Industry Awards 2024, «Лучшая свадьба в Дубае»</li>
         <li>Член жюри TOP 100 Awards</li>
         <li>Публикации в Wedding, Star Hit и международных свадебных изданиях</li>
       </ul>
