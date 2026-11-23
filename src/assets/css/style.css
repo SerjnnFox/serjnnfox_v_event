@@ -24,7 +24,7 @@ body {
   font: 400 17px/1.65 var(--sans); -webkit-font-smoothing: antialiased;
 }
 html, body { overflow-x: clip; }
-img { max-width: 100%; display: block; }
+img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; }
 button, input, select, textarea { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--gold-ink); outline-offset: 3px; }
@@ -148,12 +148,15 @@ em.accent { font-style: italic; color: var(--gold-ink); }
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(36px, 6vw, 90px); align-items: center; }
 .split--wide-text { grid-template-columns: 1.15fr .85fr; }
 .split__media { position: relative; }
-.split__media img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: var(--radius); }
+.split__media { position: sticky; top: 100px; align-self: start; }
+.split__media img { width: 100%; height: auto; aspect-ratio: 4/5; max-height: 680px; object-fit: cover; object-position: center 30%; border-radius: var(--radius); }
 .split__media figcaption { margin-top: 14px; font-size: 14px; color: var(--muted); }
 .media-badge { position: absolute; left: -22px; bottom: 32px; background: var(--paper); padding: 18px 22px; box-shadow: var(--shadow); max-width: 260px; font-size: 14px; line-height: 1.45; }
 .media-badge b { display: block; font: 400 30px/1 var(--serif); color: var(--gold-ink); margin-bottom: 6px; }
 @media (max-width: 860px) {
   .split, .split--wide-text { grid-template-columns: 1fr; }
+  .split__media { position: static; }
+  .split__media img { max-height: 520px; }
   .split--reverse .split__media { order: -1; }
   .media-badge { left: 12px; bottom: 12px; }
 }
@@ -401,6 +404,6 @@ em.accent { font-style: italic; color: var(--gold-ink); }
 /* Team photos */
 .team-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .team-row figure { margin: 0; }
-.team-row img, .team-row .ph { width: 100%; aspect-ratio: 3/2; object-fit: cover; border-radius: var(--radius); }
+.team-row img, .team-row .ph { width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; object-position: center 25%; border-radius: var(--radius); }
 .team-row figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); }
 @media (max-width: 760px) { .team-row { grid-template-columns: 1fr; } }
