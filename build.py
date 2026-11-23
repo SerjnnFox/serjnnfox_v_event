@@ -424,7 +424,7 @@ def video_block():
 </div>"""
 
 
-HERO_CASE = ("wedding-villa-miketti", None)  # (case slug, gallery photo number or None for cover)
+HERO_CASE = ("wedding-villa-miketti", None)  # e.g. ("wedding-kempinski", "raw/004")  # (case slug, gallery photo number or None for cover)
 
 
 def hero_image():
