@@ -1291,6 +1291,8 @@ def build_dubai_en():
          "Venue search and booking, photographer, videographer, host, DJ and performers, décor, florals and technical equipment, hair and make-up, the cake, the budget and the day's timeline — plus 2 planners during preparation and at least 2 coordinators on the wedding day."),
         ("Can we book day-of coordination only?",
          "Yes. If you are planning the wedding yourselves, a coordinator for the whole wedding day costs 1,500 AED."),
+        ("Do you speak English?",
+         "Yes. Our team works in English and Russian — on WhatsApp, by phone, at meetings and on the wedding day."),
         ("Do you also plan proposals?",
          "Yes — we organise marriage proposals in some of the most beautiful spots in Dubai."),
     ]
@@ -1343,7 +1345,7 @@ def build_dubai_en():
   <div class="wrap hero__in">
     <span class="eyebrow">Wedding planner in Dubai &amp; the UAE</span>
     <h1>Your Dubai wedding, planned end-to-end by&nbsp;a&nbsp;team based here</h1>
-    <p class="lead">An office in Dubai Marina, trusted venues and vendors. We take care of everything — from the hotel to the last dance — so all you have to do is arrive.</p>
+    <p class="lead">An English-speaking team with an office in Dubai Marina, trusted venues and vendors. We take care of everything — from the hotel to the last dance — so all you have to do is arrive.</p>
     <div class="hero__actions">
       <a class="btn btn--gold" href="#lead">Plan my wedding</a>
       <a class="btn btn--wa" href="https://wa.me/{wa}" target="_blank" rel="noopener">{icon('wa', 18)} WhatsApp</a>
@@ -1369,7 +1371,7 @@ def build_dubai_en():
       <div class="card reveal"><span class="card__num">01</span><h3>Our own team in Dubai</h3><p>Planners and coordinators on the ground visit venues, meet vendors and oversee every detail for you.</p></div>
       <div class="card reveal"><span class="card__num">02</span><h3>The best venues</h3><p>Kempinski The Palm, Bluewaters, Hyatt Regency, Anantara in Abu Dhabi, private villas — we'll find the place that fits your style and budget.</p></div>
       <div class="card reveal"><span class="card__num">03</span><h3>Award-winning</h3><p>One of our Dubai weddings won the White Wedding Industry Awards 2024 in the Best Wedding in Dubai category.</p></div>
-      <div class="card reveal"><span class="card__num">04</span><h3>Easy from anywhere</h3><p>A shared project chat and online approvals keep you in the loop wherever you are.</p></div>
+      <div class="card reveal"><span class="card__num">04</span><h3>We speak English</h3><p>Our team communicates in English and Russian. A shared project chat and online approvals keep you in the loop wherever you are.</p></div>
       <div class="card reveal"><span class="card__num">05</span><h3>Weddings and proposals</h3><p>Beyond weddings, we create romantic marriage proposals in Dubai's most beautiful locations.</p></div>
       <div class="card reveal"><span class="card__num">06</span><h3>Experience since 2015</h3><p>More than 520 weddings in Russia and the UAE, from intimate ceremonies to celebrations for hundreds of guests.</p></div>
     </div>
@@ -1432,7 +1434,7 @@ def build_dubai_en():
     <div>
       <span class="eyebrow">Dubai Marina office</span>
       <h2>Let's talk about your wedding</h2>
-      <p class="lead" style="color:rgba(243,235,225,.8);margin-top:20px">Leave a request or message us on WhatsApp — we'll tell you about venues, dates and budgets. No obligation.</p>
+      <p class="lead" style="color:rgba(243,235,225,.8);margin-top:20px">Leave a request or message us on WhatsApp in English — we'll tell you about venues, dates and budgets. No obligation.</p>
       <ul class="contact-lines">
         <li>{icon('phone')}<div><a href="tel:{C['dubai_tel']}">{C['dubai_phone']}</a><small>9:00–21:00 Dubai time</small></div></li>
         <li>{icon('wa')}<div><a href="https://wa.me/{wa}" target="_blank" rel="noopener">Message us on WhatsApp</a></div></li>
@@ -1466,8 +1468,8 @@ def build_dubai_en():
 </body>
 </html>"""
     title = "Wedding Planner in Dubai — Vinogradova Event"
-    desc = ("Full-service wedding planning and marriage proposals in Dubai and Abu Dhabi. Office in Dubai Marina, "
-            "winners of the Best Wedding in Dubai award 2024. Fees from 8,500 AED.")
+    desc = ("English-speaking wedding planners in Dubai and Abu Dhabi: full-service weddings and proposals. "
+            "Office in Dubai Marina, Best Wedding in Dubai award 2024. Fees from 8,500 AED.")
     hd = head(title, desc, path, "/assets/img/site/dubai-hero.webp")
     hd = hd.replace('<html lang="ru">', '<html lang="en">').replace('content="ru_RU"', 'content="en_US"')
     hd = hd.replace("</head>", DUBAI_HREFLANG + breadcrumbs_ld(path) + ld_script(
